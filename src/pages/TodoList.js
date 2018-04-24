@@ -13,6 +13,7 @@ class TodoList extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.addTodo = this.addTodo.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
+    this.editTodo = this.editTodo.bind(this)
   }
 
   handleChange(event) {
@@ -20,10 +21,14 @@ class TodoList extends Component {
   }
 
   addTodo() {
-    this.setState(prevState => ({
-      todos: prevState.todos.concat({todo: prevState.input, id: prevState.todos.length}),
-      input: ""
-    }))
+    if(this.state.input === "") {
+      alert('Input cannot be empty')
+    } else {
+      this.setState(prevState => ({
+        todos: prevState.todos.concat({todo: prevState.input, id: prevState.todos.length}),
+        input: ""
+      }))
+    }
   }
 
   deleteTodo(target_index) {
@@ -32,13 +37,26 @@ class TodoList extends Component {
     }))
   }
 
+  editTodo(target_index) {
+    const new_value = prompt("Edit Todo")
+    if(new_value === ""){
+      alert("Input cannot be empty");
+    } else {
+      let todos = Object.assign(this.state.todos)
+      todos[target_index].todo = new_value
+      this.setState((prevState) => ({
+        todos: todos
+      }))
+    }
+  }
+
   render() {
     return (
       <div>
         <h1>Hello World</h1>
         <input type="text" onChange={this.handleChange} value={this.state.input} />
         <button onClick={this.addTodo}>Add Todo</button>
-        <Output todos={this.state.todos} deleteTodo={this.deleteTodo}/>
+        <Output todos={this.state.todos} deleteTodo={this.deleteTodo} editTodo={this.editTodo} />
       </div>
     );
   }

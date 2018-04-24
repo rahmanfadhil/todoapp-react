@@ -6,6 +6,7 @@ const Output = (props) => (
       {props.todos.map((item, index) => (
         <li key={index}>
           <button onClick={() => props.deleteTodo(index)}>X</button>
+          <button onClick={() => props.editTodo(index)}>EDIT</button>
           {item.todo}
         </li>
       ))}
